@@ -1,4 +1,4 @@
-# SaaS Starter
+# SaaS Starter ⚡
 ## This will be my template for creating SaaS, this will not use Stripe because this will be selled to a niche in my town/city
 
 ## Overview
@@ -10,9 +10,12 @@ This is a monorepo project structure with a Next.js frontend client and a NestJS
 - PostgreSQL database (Supabase)
 
 ## Project Structure
-├── client/ # Next.js frontend application
-├── server/ # NestJS backend application
-└── package.json # Root package.json for monorepo management
+```
+.
+├── client/          # Next.js frontend application
+├── server/          # NestJS backend application
+└── package.json     # Root package.json for monorepo management
+```
 
 ## Getting Started
 
