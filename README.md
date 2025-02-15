@@ -1,8 +1,7 @@
 # SaaS Starter ⚡
-## This will be my template for creating SaaS, this will not use Stripe because this will be selled to a niche in my town/city
 
 ## Overview
-This is a monorepo project structure with a Next.js frontend client and a NestJS backend server.
+This is a monorepo project structure with a Next.js frontend client and a NestJS backend server. This template for creating a SaaS, this will not use Stripe because this will be selled to a niche in my town/city.
 
 ## Prerequisites
 - Node.js 18 or higher
