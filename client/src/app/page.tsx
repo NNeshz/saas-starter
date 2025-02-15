@@ -1,6 +1,53 @@
+'use client'
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { API_URL } from '@/config/constants';
+import { UserCircle2 } from 'lucide-react'
+
+interface User {
+  id: string;
+  email: string;
+  name?: string;
+  avatar?: string;
+}
 
 export default function Home() {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    // Verificar sesión al cargar la página
+    const checkSession = async () => {
+      try {
+        const response = await fetch(`${API_URL}/auth/session`);
+        const data = await response.json();
+        if (data.user) {
+          setUser(data.user);
+        }
+      } catch (error) {
+        console.error("Error checking session:", error);
+      }
+    };
+
+    checkSession();
+  }, []);
+
+  const handleLogin = () => {
+    window.location.href = `${API_URL}/auth/signin`;
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`${API_URL}/auth/signout`);
+      const data = await response.json();
+      if (data.message === "Logged out successfully") {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -47,6 +94,41 @@ export default function Home() {
           >
             Read our docs
           </a>
+        </div>
+
+        {/* Sección de autenticación */}
+        <div className="mt-8 flex flex-col items-center gap-4">
+          {user ? (
+            <>
+              <div className="flex items-center gap-3">
+                {user.avatar && (
+                  <img
+                    src={user.avatar}
+                    alt="User avatar"
+                    className="w-12 h-12 rounded-full"
+                  />
+                )}
+                <div>
+                  <h2 className="text-lg font-semibold">{user.name}</h2>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{user.email}</p>
+                </div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+              >
+                Cerrar sesión
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={handleLogin}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors flex items-center gap-2"
+            >
+              <UserCircle2 className="w-4 h-4" />
+              Iniciar sesión con Google
+            </button>
+          )}
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
