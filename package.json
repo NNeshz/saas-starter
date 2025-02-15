@@ -1,0 +1,14 @@
+{
+  "name": "saas-starter",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "pnpm run --parallel --filter client --filter server dev",
+    "build:client": "pnpm --filter client build",
+    "build:server": "pnpm --filter server build",
+    "start:client": "pnpm --filter client start",
+    "start:server": "pnpm --filter server start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
