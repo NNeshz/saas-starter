@@ -7,11 +7,11 @@ async function seed() {
     console.log("Iniciando seed...");
 
     // Limpiar la tabla existente
-    await prisma.authorizedUser.deleteMany();
+    await prisma.authorizedEmails.deleteMany();
 
     // Insertar los usuarios autorizados
     for(const user of authorizedUsers) {
-        const authorizedUser = await prisma.authorizedUser.create({
+        const authorizedUser = await prisma.authorizedEmails.create({
             data: user
         });
         console.log(`Usuario autorizado insertado: ${authorizedUser.email}`);

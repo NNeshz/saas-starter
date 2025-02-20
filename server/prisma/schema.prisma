@@ -14,10 +14,9 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum Role {
+enum Roles {
   SUPERADMIN
   ADMIN
-  STAFF
   USER
 }
 
@@ -26,12 +25,12 @@ model User {
   email     String   @unique
   name      String?
   avatar    String?
-  role      Role     @default(USER)
+  role      Roles    @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model AuthorizedUser {
+model AuthorizedEmails {
   id        String   @id @default(uuid())
   email     String   @unique
   createdAt DateTime @default(now())
