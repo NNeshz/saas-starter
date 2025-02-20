@@ -20,9 +20,14 @@ export class AuthController {
 
   @Get('callback')
   async callback(@Req() req: Request, @Res() res: Response) {
-    const result = await this.authService.handleCallback(req);
-    // Aquí deberías redirigir al frontend con los tokens
-    return res.json(result);
+    try {
+      const result = await this.authService.handleCallback(req);
+      // Redirigir al frontend con un token de éxito
+      return res.redirect(`${process.env.FRONTEND_URL}/auth/success?token=${result.session.access_token}`);  
+    } catch (error) {
+      // Redirigir al frontend con un mensaje de error
+      return res.redirect(`${process.env.FRONTEND_URL}/auth/error?message=${encodeURIComponent(error.message)}`);
+    }
   }
 
   @Get('signout')
@@ -40,7 +45,15 @@ export class AuthController {
     if (error || !session) {
       throw new UnauthorizedException('No active session');
     }
-    
+
+    // Verificar que el usuario está autorizado
+    const authorizedUser = await this.prisma.authorizedUser.findUnique({
+      where: { email: session.user.email }
+    });
+
+    if (!authorizedUser) {
+      throw new UnauthorizedException('No estas autorizado para acceder a esta aplicación');
+    }
     const user = await this.prisma.user.findUnique({
       where: { id: session.user.id }
     });

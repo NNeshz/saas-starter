@@ -9,6 +9,9 @@
     "dev": "nest start --watch",
     "build": "nest build",
     "start": "nest start",
+    "db:seed": "prisma db seed",
+    "db:reset": "prisma migrate reset",
+    "db:deploy": "prisma migrate deploy && prisma db seed",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -69,5 +72,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "prisma": {
+    "seed": "ts-node --transpile-only src/prisma/seed.ts"
   }
 }
