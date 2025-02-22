@@ -40,10 +40,15 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  // Si no hay un token válido y el usuario intenta acceder a /dashboard
+  if (!decodedToken && pathname === "/dashboard") {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
   // Para todas las demás rutas, permite el acceso
   return NextResponse.next();
 }
 
 export const config = {
-    matcher: ["/", "/login"],
+    matcher: ["/", "/login", "/dashboard"],
 };

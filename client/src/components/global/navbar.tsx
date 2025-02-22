@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { Calendar, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ModeToggle } from "./mode-toggle";
 
 const navLinks = [
     {
@@ -25,8 +26,8 @@ export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="w-full h-16 max-w-7xl bg-background mx-auto fixed top-0 left-0 right-0 z-50 backdrop-blur-sm">
-            <div className="max-w-7xl w-full h-full mx-auto flex items-center justify-between px-4">
+        <nav className="w-full h-16 max-w-7xl mx-auto fixed top-0 left-0 right-0 z-50 backdrop-blur-sm">
+            <div className={`max-w-7xl w-full h-full mx-auto flex items-center justify-between px-4 ${isOpen ? "bg-background" : "bg-none"}`}>
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -56,12 +57,15 @@ export function Navbar() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5 }}
+                    className="flex items-center gap-2"
                 >
                     <Button variant="ghost" className="gap-2 items-center md:flex hidden text-primary">
                         <Calendar size={20} />
                         <span className="sr-only">Calendario</span>
                         <span className="text-sm font-medium">Agenda una cita</span>
                     </Button>
+
+                    <ModeToggle />
 
                     <Button variant="ghost" className="gap-2 md:hidden" onClick={() => setIsOpen(!isOpen)}>
                         {isOpen ? <X size={20} /> : <Menu size={20} />}

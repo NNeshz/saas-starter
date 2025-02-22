@@ -3,12 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { GoogleIcon } from "@/components/svg/google";
 import { motion } from "framer-motion";
-import { AuthService } from "@/modules/login/service/auth-service"
 
 export default function LoginPage() {
+
     const handleLogin = async () => {
         try {
-            await AuthService.login()
+            window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/signin  `
         } catch (error) {
             console.error('Error durante el inicio de sesión:', error)
         }
@@ -25,7 +25,7 @@ export default function LoginPage() {
                 <p className="text-3xl font-medium">Inicia sesión, solo si eres un administrador</p>
                 <p className="text-sm text-muted-foreground">Si no tienes una relación, puedes contactar al administrador</p>
                 <Button
-                    className="rounded-full gap-2 cursor-pointer"
+                    className="rounded-full gap-2 cursor-pointer bg-primary text-white"
                     onClick={handleLogin}
                 >
                     <GoogleIcon />
