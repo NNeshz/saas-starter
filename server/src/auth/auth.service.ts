@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { SupabaseService } from 'src/supabase/supabase.service';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Roles } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -56,6 +57,8 @@ export class AuthService {
         throw new UnauthorizedException(`El correo ${userEmail} no está autorizado para acceder al sistema`);
       }
 
+      let role = userEmail === process.env.NEFTALI_HERNANDEZ_MAIL ? Roles.SUPERADMIN : Roles.USER;
+
       // Crear o actualizar el usuario en la base de datos
       try {
         const user = await this.prismaService.user.upsert({
@@ -63,11 +66,13 @@ export class AuthService {
           update: {
             name: session.user.user_metadata?.full_name,
             avatar: session.user.user_metadata?.avatar_url,
+            role: role,
           },
           create: {
             email: userEmail,
             name: session.user.user_metadata?.full_name,
             avatar: session.user.user_metadata?.avatar_url,
+            role: role,
           },
         });
 
