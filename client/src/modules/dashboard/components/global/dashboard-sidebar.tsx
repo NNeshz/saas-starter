@@ -2,20 +2,31 @@
 
 import * as React from "react"
 import {
-    BookOpen,
-    Bot,
+    Building,
+    CalendarCheck,
+    CalendarDays,
+    ChartBar,
+    ClipboardCheck,
+    ClipboardList,
     Command,
-    Frame,
+    CreditCard,
+    FilePlus,
+    FileText,
+    HeartPulse,
+    Hospital,
+    LayoutDashboard,
     LifeBuoy,
-    Map,
-    PieChart,
-    Send,
-    Settings2,
-    SquareTerminal,
+    MedalIcon,
+    MessageCircle,
+    ReceiptIcon,
+    ReceiptText,
+    ScanFace,
+    ScrollText,
+    UserCheck,
+    Users,
 } from "lucide-react"
 
 import { NavMain } from "@/modules/dashboard/components/global/nav-main"
-import { NavProjects } from "@/modules/dashboard/components/global/nav-projects"
 import { NavSecondary } from "@/modules/dashboard/components/global/nav-secondary"
 import { NavUser } from "@/modules/dashboard/components/global/nav-user"
 import {
@@ -30,127 +41,139 @@ import {
 
 const data = {
     user: {
-        name: "shadcn",
-        email: "m@example.com",
+        name: "Dr. John Doe",
+        email: "dr.johndoe@example.com",
         avatar: "",
     },
     navMain: [
         {
-            title: "Playground",
+            title: "Dashboard",
             url: "#",
-            icon: SquareTerminal,
+            icon: LayoutDashboard,
             isActive: true,
             items: [
                 {
-                    title: "History",
+                    title: "Métricas",
                     url: "#",
+                    icon: ChartBar,
                 },
                 {
-                    title: "Starred",
+                    title: "Empleados",
                     url: "#",
+                    icon: UserCheck,
                 },
                 {
-                    title: "Settings",
+                    title: "Administración",
                     url: "#",
-                },
-            ],
-        },
-        {
-            title: "Models",
-            url: "#",
-            icon: Bot,
-            items: [
-                {
-                    title: "Genesis",
-                    url: "#",
-                },
-                {
-                    title: "Explorer",
-                    url: "#",
-                },
-                {
-                    title: "Quantum",
-                    url: "#",
+                    icon: Building,
                 },
             ],
         },
         {
-            title: "Documentation",
+            title: "Pacientes",
             url: "#",
-            icon: BookOpen,
+            icon: Users,
             items: [
                 {
-                    title: "Introduction",
+                    title: "Lista de Pacientes",
                     url: "#",
+                    icon: MedalIcon,
                 },
                 {
-                    title: "Get Started",
+                    title: "Añadir Paciente",
                     url: "#",
-                },
-                {
-                    title: "Tutorials",
-                    url: "#",
-                },
-                {
-                    title: "Changelog",
-                    url: "#",
+                    icon: UserCheck,
                 },
             ],
         },
         {
-            title: "Settings",
+            title: "Historial Clínico",
             url: "#",
-            icon: Settings2,
+            icon: ClipboardList,
             items: [
                 {
-                    title: "General",
+                    title: "Buscar Historial",
                     url: "#",
+                    icon: ScrollText,
                 },
                 {
-                    title: "Team",
+                    title: "Añadir Registro",
                     url: "#",
+                    icon: FilePlus,
+                },
+            ],
+        },
+        {
+            title: "Citas Médicas",
+            url: "#",
+            icon: CalendarCheck,
+            items: [
+                {
+                    title: "Agenda de Citas",
+                    url: "#",
+                    icon: CalendarDays,
                 },
                 {
-                    title: "Billing",
+                    title: "Nueva Cita",
                     url: "#",
+                    icon: FileText,
+                },
+            ],
+        },
+        {
+            title: "Pagos",
+            url: "#",
+            icon: CreditCard,
+            items: [
+                {
+                    title: "Historial de Pagos",
+                    url: "#",
+                    icon: ReceiptIcon,
                 },
                 {
-                    title: "Limits",
+                    title: "Registrar Pago",
                     url: "#",
+                    icon: ClipboardCheck,
+                },
+                {
+                    title: "Facturación",
+                    url: "#",
+                    icon: ReceiptText,
                 },
             ],
         },
     ],
     navSecondary: [
         {
-            title: "Support",
+            title: "Soporte",
             url: "#",
             icon: LifeBuoy,
         },
         {
-            title: "Feedback",
+            title: "Sugerencias",
             url: "#",
-            icon: Send,
+            icon: MessageCircle,
         },
     ],
-    projects: [
+    clinics: [
         {
-            name: "Design Engineering",
+            name: "Clínica Central",
             url: "#",
-            icon: Frame,
+            icon: Hospital,
         },
         {
-            name: "Sales & Marketing",
+            name: "Centro de Rehabilitación",
             url: "#",
-            icon: PieChart,
+            icon: HeartPulse,
         },
         {
-            name: "Travel",
+            name: "Odontología Premium",
             url: "#",
-            icon: Map,
+            icon: ScanFace,
         },
     ],
-}
+};
+
 
 export function DashboardSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
@@ -177,7 +200,6 @@ export function DashboardSidebar({ ...props }: React.ComponentProps<typeof Sideb
             </SidebarHeader>
             <SidebarContent className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                 <NavMain items={data.navMain} />
-                <NavProjects projects={data.projects} />
                 <NavSecondary items={data.navSecondary} className="mt-auto" />
             </SidebarContent>
             <SidebarFooter>

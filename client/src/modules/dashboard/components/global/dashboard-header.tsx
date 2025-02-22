@@ -32,12 +32,12 @@ export function DashboardHeader() {
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink href="#">
-                                Building Your Application
+                                Administración
                             </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                            <BreadcrumbPage>Registro de paciente</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
