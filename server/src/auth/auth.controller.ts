@@ -20,22 +20,22 @@ export class AuthController {
     const next = req.query.next ?? '/';
 
     if (!code) {
-      res.redirect(`${process.env.FRONTEND_URL}/auth/error`);
+      console.log('No se recibió código de autorización');
+      res.redirect(`${process.env.FRONTEND_URL}/`);
       return;
     }
 
     try {
       const token = await this.authService.handleGoogleCallback(code);
-      res.cookie('sb-access-token', token, {
+      res.cookie(process.env.SUPABASE_COOKIE_NAME, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
       });
-      console.log({ token });
-      res.redirect(303, `${process.env.FRONTEND_URL}/auth/callback`);
+      res.redirect(`${process.env.FRONTEND_URL}${next}`);
     } catch (error) {
       console.error('Error en callback:', error);
-      res.redirect(`${process.env.FRONTEND_URL}/auth/error`);
+      res.redirect(`${process.env.FRONTEND_URL}/login?error=${encodeURIComponent(error.message)}`);
     }
   }
 }

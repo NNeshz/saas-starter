@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import * as jose from 'jose';
 
 const SUPABASE_JWT_SECRET = process.env.NEXT_PUBLIC_SUPABASE_JWT_SECRET!;
-const TOKEN_NAME = process.env.NEXT_PUBLIC_APP_JWT_TOKEN_NAME!;
+const TOKEN_NAME = process.env.SUPABASE_COOKIE_NAME!;
 
 interface DecodedToken {
   sub: string;
