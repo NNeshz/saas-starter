@@ -1,9 +1,18 @@
-import { registerAs } from "@nestjs/config";
+import { createClient } from '@supabase/supabase-js';
+import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
 
-export default registerAs(
-    "supabase",
-    () => ({
-        url: process.env.SUPABASE_URL,
-        key: process.env.SUPABASE_KEY,
-    })
-);
+@Injectable()
+export class SupabaseConfig {
+  private supabase;
+
+  constructor(private configService: ConfigService) {
+    const supabaseUrl = this.configService.get<string>('SUPABASE_URL');
+    const supabaseKey = this.configService.get<string>('SUPABASE_KEY');
+    this.supabase = createClient(supabaseUrl, supabaseKey);
+  }
+
+  getClient() {
+    return this.supabase;
+  }
+}

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import supabaseConfig from './config/supabase-config';
+import { SupabaseConfig} from './config/supabase-config';
 import { PrismaModule } from './prisma/prisma.module';
 import { SupabaseModule } from './supabase/supabase.module';
 import { AuthModule } from './auth/auth.module';
@@ -11,7 +11,7 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [supabaseConfig],
+      load: [() => SupabaseConfig],
       expandVariables: true,
     }),
     PrismaModule,

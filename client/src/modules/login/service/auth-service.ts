@@ -8,7 +8,7 @@ export const AuthService = {
 
     async getSession() {
         try {
-            const response = await api.get('/auth/session')
+            const response = await api.get('/auth/signin')
             return response.data
         } catch (error) {
             console.error('Error al obtener la sesión:', error)

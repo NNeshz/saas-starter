@@ -10,6 +10,14 @@ export class SupabaseService {
     this.supabase = createClient(
       this.configService.get('SUPABASE_URL'),
       this.configService.get('SUPABASE_KEY'),
+      {
+        auth: {
+          flowType: 'pkce',
+          autoRefreshToken: true,
+          persistSession: true,
+          detectSessionInUrl: false,
+        }
+      }
     );
   }
 
