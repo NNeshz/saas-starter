@@ -1,7 +1,7 @@
-export default function DashboardPage() {
+export default function Page() {
     return (
-        <div>
-            <h1>Dashboard</h1>
+        <div className="flex flex-col gap-4 bg-red-600">
+            <h4 className="text-2xl font-bold">Bienvenido</h4>
         </div>
     )
 }

@@ -16,6 +16,10 @@ export class AuthController {
 
   @Get('callback')
   async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
+
+    console.log('googleAuthRedirect');
+    console.log(req.query);
+
     const code = req.query.code as string;
     const next = req.query.next ?? '/';
 

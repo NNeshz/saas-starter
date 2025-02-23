@@ -239,10 +239,10 @@ export const SidebarSkeleton = () => {
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
-            <SidebarContent className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+            <SidebarContent className="flex-1 p-2 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                 {
-                    Array.from({ length: 10 }).map((_, index) => (
-                        <Skeleton key={index} className="h-10 w-full" />
+                    Array.from({ length: 5 }).map((_, index) => (
+                        <Skeleton key={index} className="h-8 w-full" />
                     ))
                 }
             </SidebarContent>
