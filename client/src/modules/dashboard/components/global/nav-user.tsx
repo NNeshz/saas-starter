@@ -29,15 +29,12 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
+import { UserResponse } from "@/modules/login/interfaces/user-response";
 
 export function NavUser({
     user,
 }: {
-    user: {
-        name: string
-        email: string
-        avatar: string
-    }
+    user: UserResponse
 }) {
     const { isMobile } = useSidebar()
 

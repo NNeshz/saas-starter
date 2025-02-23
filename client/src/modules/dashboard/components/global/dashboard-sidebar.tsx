@@ -38,6 +38,8 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { useUsers } from "@/modules/login/hooks/useUsers"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const data = {
     user: {
@@ -176,6 +178,12 @@ const data = {
 
 
 export function DashboardSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+    const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useUsers();
+
+    if (isLoadingUser) return <SidebarSkeleton />
+    if (isErrorUser) return <SidebarError />
+
     return (
         <Sidebar
             className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] flex flex-col border-r bg-sidebar"
@@ -203,7 +211,75 @@ export function DashboardSidebar({ ...props }: React.ComponentProps<typeof Sideb
                 <NavSecondary items={data.navSecondary} className="mt-auto" />
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={data.user} />
+                {user && <NavUser user={user} />}
+            </SidebarFooter>
+        </Sidebar>
+    )
+}
+
+export const SidebarSkeleton = () => {
+    return (
+        <Sidebar
+            className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] flex flex-col border-r bg-sidebar"
+        >
+            <SidebarHeader>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton size="lg" asChild>
+                            <a href="#">
+                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                                    <Skeleton className="size-4" />
+                                </div>
+                                <div className="grid flex-1 text-left text-sm leading-tight">
+                                    <Skeleton className="truncate font-semibold" />
+                                    <Skeleton className="truncate text-xs" />
+                                </div>
+                            </a>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarHeader>
+            <SidebarContent className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+                {
+                    Array.from({ length: 10 }).map((_, index) => (
+                        <Skeleton key={index} className="h-10 w-full" />
+                    ))
+                }
+            </SidebarContent>
+            <SidebarFooter>
+                <Skeleton className="h-10 w-full" />
+            </SidebarFooter>
+        </Sidebar>
+    )
+}
+
+export const SidebarError = () => {
+    return (
+        <Sidebar
+            className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] flex flex-col border-r bg-sidebar"
+        >
+            <SidebarHeader>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton size="lg" asChild>
+                            <a href="#">
+                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                                    <Command className="size-4" />
+                                </div>
+                                <div className="grid flex-1 text-left text-sm leading-tight">
+                                    <span className="truncate font-semibold text-destructive">Error</span>
+                                    <span className="truncate text-xs text-destructive">Error</span>
+                                </div>
+                            </a>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarHeader>
+            <SidebarContent className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+                <p className="text-destructive">Error al cargar el sidebar</p>
+            </SidebarContent>
+            <SidebarFooter>
+                <p className="text-destructive">Error al cargar el sidebar</p>
             </SidebarFooter>
         </Sidebar>
     )

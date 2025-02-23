@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res } from '@nestjs/common';
+import { Controller, Get, Req, Res, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
 
@@ -37,5 +37,11 @@ export class AuthController {
       console.error('Error en callback:', error);
       res.redirect(`${process.env.FRONTEND_URL}/login?error=${encodeURIComponent(error.message)}`);
     }
+  }
+
+  @Get('user')
+  @HttpCode(HttpStatus.OK)
+  async getUser(@Req() req: Request) {
+    return this.authService.getUser(req);
   }
 }

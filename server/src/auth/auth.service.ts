@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { SupabaseService } from 'src/supabase/supabase.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Roles } from '@prisma/client';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -96,5 +97,57 @@ export class AuthService {
 
   async logout(token: string) {
     await this.supabaseService.getClient().auth.admin.signOut(token);
+  }
+
+  async getUser(req: Request) {
+    try {
+      // Obtener el token de la cookie
+      const token = req.cookies[process.env.SUPABASE_COOKIE_NAME];
+      
+      if (!token) {
+        throw new UnauthorizedException('No token provided');
+      }
+
+      // Usar Supabase para obtener la sesión del usuario
+      const { data: { user }, error } = await this.supabaseService
+        .getClient()
+        .auth.getUser(token);
+
+      if (error || !user) {
+        throw new UnauthorizedException('Invalid token');
+      }
+
+      // Buscar el usuario en la base de datos usando el email
+      const dbUser = await this.prismaService.user.findUnique({
+        where: {
+          email: user.email,
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          avatar: true,
+          role: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+
+      if (!dbUser) {
+        throw new UnauthorizedException('User not found in database');
+      }
+
+      return {
+        status: 'success',
+        data: dbUser,
+      };
+    } catch (error) {
+      console.error('Error in getUser:', error);
+      throw new UnauthorizedException(
+        error instanceof UnauthorizedException 
+          ? error.message 
+          : 'Invalid token or user not found'
+      );
+    }
   }
 }
