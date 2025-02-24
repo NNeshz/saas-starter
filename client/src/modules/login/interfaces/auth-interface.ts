@@ -19,8 +19,3 @@ export interface User {
     adminRole: AdminRoles;
     userRole: UserRoles;
 }
-
-export interface UserResponse {
-    success: string;
-    data: User;
-}

@@ -3,6 +3,12 @@ import { DashboardSidebar } from "@/modules/dashboard/components/global/dashboar
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Geist } from "next/font/google";
 import { DashboardHeader } from "@/modules/dashboard/components/global/dashboard-header";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "NNeshz | Dashboard",
+    description: "Sistema de gestión de pacientes",
+}
 
 const geisSans = Geist({
     variable: "--font-geist-sans",

@@ -18,7 +18,6 @@ export class AuthController {
   @Get('callback')
   async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
     const code = req.query.code as string;
-    const next = req.query.next ?? '/';
 
     if (!code) {
       console.log('No se recibió código de autorización');

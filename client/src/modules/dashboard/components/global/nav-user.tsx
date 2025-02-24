@@ -29,13 +29,13 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { UserResponse } from "@/modules/login/interfaces/user-response";
+import { User } from "@/modules/login/interfaces/auth-interface";
 import { useTheme } from "next-themes";
 
 export function NavUser({
     user,
 }: {
-    user: UserResponse
+    user: User
 }) {
     const { theme, setTheme } = useTheme();
 

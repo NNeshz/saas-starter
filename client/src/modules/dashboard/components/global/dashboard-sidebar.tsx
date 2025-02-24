@@ -184,6 +184,8 @@ export function DashboardSidebar({ ...props }: React.ComponentProps<typeof Sideb
     if (isLoadingUser) return <SidebarSkeleton />
     if (isErrorUser) return <SidebarError />
 
+    const userData = user?.data;
+
     return (
         <Sidebar
             className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] flex flex-col border-r bg-sidebar"
@@ -194,7 +196,7 @@ export function DashboardSidebar({ ...props }: React.ComponentProps<typeof Sideb
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <a href="#">
-                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-sidebar-primary-foreground">
                                     <Command className="size-4" />
                                 </div>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -211,7 +213,7 @@ export function DashboardSidebar({ ...props }: React.ComponentProps<typeof Sideb
                 <NavSecondary items={data.navSecondary} className="mt-auto" />
             </SidebarContent>
             <SidebarFooter>
-                {user && <NavUser user={user} />}
+                {userData && <NavUser user={userData} />}
             </SidebarFooter>
         </Sidebar>
     )
@@ -227,7 +229,7 @@ export const SidebarSkeleton = () => {
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <a href="#">
-                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-sidebar-primary-foreground">
                                     <Command className="size-4" />
                                 </div>
                                 <div className="grid flex-1 text-left text-sm leading-tight">

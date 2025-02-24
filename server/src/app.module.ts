@@ -6,6 +6,7 @@ import { SupabaseConfig} from './config/supabase-config';
 import { PrismaModule } from './prisma/prisma.module';
 import { SupabaseModule } from './supabase/supabase.module';
 import { AuthModule } from './auth/auth.module';
+import { PatientsModule } from './patients/patients.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
     PrismaModule,
     SupabaseModule,
     AuthModule,
+    PatientsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

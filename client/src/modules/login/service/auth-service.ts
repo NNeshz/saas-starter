@@ -1,7 +1,7 @@
 import { getHeaders } from "@/lib/utils/get-headers";
 import { authInstance } from "./auth-instance";
-import { UserResponse } from "../interfaces/auth-interface";
 import { User } from "../interfaces/auth-interface";
+import { BaseApiResponse } from "@/modules/common/types/api-response.types";
 
 
 export const AuthService = {
@@ -15,22 +15,14 @@ export const AuthService = {
         return response.data;
     },
 
-    async getUser(): Promise<User> {
+    async getUser(): Promise<BaseApiResponse<User>> {
         try {
-            const response = await authInstance.get<UserResponse>('/user', {
+            const response = await authInstance.get<BaseApiResponse<User>>('/user', {
                 withCredentials: true,
                 headers: getHeaders(),
             });
-            const user = response.data;
 
-            return {
-                id: user.data.id,
-                email: user.data.email,
-                name: user.data.name,
-                avatar: user.data.avatar,
-                adminRole: user.data.adminRole,
-                userRole: user.data.userRole,
-            };
+            return response.data;
         } catch (error) {
             console.error('Error fetching user:', error);
             throw error;

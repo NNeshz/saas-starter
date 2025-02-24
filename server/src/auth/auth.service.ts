@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { AdminRoles, UserRoles } from '@prisma/client';
 import { Request } from 'express';
 import * as jwt from 'jsonwebtoken';
+import { ApiResponseBuilder } from 'src/common/utils/api-response.builder';
 
 @Injectable()
 export class AuthService {
@@ -131,17 +132,9 @@ export class AuthService {
         throw new UnauthorizedException('User not found in database');
       }
 
-      return {
-        status: 'success',
-        data: dbUser,
-      };
+      return ApiResponseBuilder.success(dbUser, 'User fetched successfully');
     } catch (error) {
-      console.error('Error in getUser:', error);
-      throw new UnauthorizedException(
-        error instanceof UnauthorizedException
-          ? error.message
-          : 'Invalid token or user not found'
-      );
+      return ApiResponseBuilder.error(error, 'Error fetching user');
     }
   }
 

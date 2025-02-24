@@ -12,21 +12,23 @@ export function UserWelcome() {
     if (isLoadingUser) return <UserWelcomeSkeleton />
     if (isErrorUser) return <UserWelcomeError />
 
+    const userData = user?.data;
+
     return (
         <div>
             <span className="flex items-center gap-2">
                 <p className="text-2xl font-bold">
-                    {user?.name || ''}
+                    {userData?.name || ''}
                 </p>
-                <Badge variant="outline" className={`${getColorAndLabelForRole(user?.userRole as UserRoles).color} px-2 py-1`}>
-                    {getColorAndLabelForRole(user?.userRole as UserRoles).label}
+                <Badge variant="outline" className={`${getColorAndLabelForRole(userData?.userRole as UserRoles).color} px-2 py-1 text-white`}>
+                    {getColorAndLabelForRole(userData?.userRole as UserRoles).label}
                 </Badge>
-                <Badge variant="outline" className={`${getColorAndLabelForAdminRole(user?.adminRole as AdminRoles).color} px-2 py-1`}>
-                    {getColorAndLabelForAdminRole(user?.adminRole as AdminRoles).label}
+                <Badge variant="outline" className={`${getColorAndLabelForAdminRole(userData?.adminRole as AdminRoles).color} px-2 py-1 text-white`}>
+                    {getColorAndLabelForAdminRole(userData?.adminRole as AdminRoles).label}
                 </Badge>
             </span>
             <p className="text-sm text-gray-500">
-                {user?.email || ''}
+                {userData?.email || ''}
             </p>
         </div>
     )
