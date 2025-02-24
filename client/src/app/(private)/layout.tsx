@@ -11,13 +11,13 @@ const geisSans = Geist({
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className={`${geisSans.variable} min-h-screen antialiased [--header-height:theme(spacing.14)] font-geist`}>
+        <div className={`${geisSans.variable} antialiased bg-purple-600 font-geist`}>
             <Providers>
-                <SidebarProvider>
+                <SidebarProvider className="flex flex-col">
                     <DashboardHeader />
                     <div className="flex flex-1">
                         <DashboardSidebar />
-                        <SidebarInset>
+                        <SidebarInset className="p-4">
                             {children}
                         </SidebarInset>
                     </div>

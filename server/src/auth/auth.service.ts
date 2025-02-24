@@ -48,8 +48,7 @@ export class AuthService {
 
       // Validar si el email está autorizado
       const userEmail = session.user.email;
-      console.log('Verificando email autorizado:', userEmail);
-      
+            
       const authorizedEmail = await this.prismaService.authorizedEmails.findUnique({
         where: { email: userEmail }
       });

@@ -6,7 +6,8 @@ import {
     ChevronsUpDown,
     CreditCard,
     LogOut,
-    Sparkles,
+    Moon,
+    Sun,
 } from "lucide-react"
 
 import {
@@ -29,12 +30,15 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { UserResponse } from "@/modules/login/interfaces/user-response";
+import { useTheme } from "next-themes";
 
 export function NavUser({
     user,
 }: {
     user: UserResponse
 }) {
+    const { theme, setTheme } = useTheme();
+
     return (
         <SidebarMenu>
             <SidebarMenuItem>
@@ -75,9 +79,20 @@ export function NavUser({
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <Sparkles />
-                                Upgrade to Pro
+                            <DropdownMenuItem onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+                                {
+                                    theme === "dark" ? (
+                                        <span className="flex items-center gap-2">
+                                            <Sun className="h-4 w-4 text-muted-foreground" />
+                                            <p>Luz</p>
+                                        </span>
+                                    ) : (
+                                        <span className="flex items-center gap-2">
+                                            <Moon className="h-4 w-4 text-muted-foreground" />
+                                            <p>Oscuro</p>
+                                        </span>
+                                    )
+                                }
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />

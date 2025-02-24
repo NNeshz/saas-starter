@@ -1,7 +1,9 @@
-export default function Page() {
+import { UserWelcome } from "@/modules/dashboard/home/user-welcome";
+
+export default function DashboardPage() {
     return (
-        <div className="flex flex-col gap-4 bg-red-600">
-            <h4 className="text-2xl font-bold">Bienvenido</h4>
+        <div className="flex flex-col h-full gap-4">
+            <UserWelcome />
         </div>
     )
 }
