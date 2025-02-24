@@ -2,11 +2,11 @@
 
 import {
     Calculator,
-    Calendar,
     CreditCard,
     Settings,
     Smile,
     User,
+    UserPlus2Icon,
 } from "lucide-react"
 import {
     CommandDialog,
@@ -22,10 +22,12 @@ import { Button } from "@/components/ui/button"
 import { SidebarIcon } from "lucide-react"
 import { useSidebar } from "@/components/ui/sidebar"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 export function DashboardHeader() {
     const [open, setOpen] = useState(false)
     const { toggleSidebar } = useSidebar()
+    const router = useRouter()
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
@@ -68,9 +70,12 @@ export function DashboardHeader() {
                     <CommandList className="overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
                         <CommandEmpty>No se encontraron resultados.</CommandEmpty>
                         <CommandGroup heading="Sugerencias">
-                            <CommandItem>
-                                <Calendar />
-                                <span>Calendar</span>
+                            <CommandItem className="flex items-center gap-2" onSelect={() => {
+                                setOpen(false)
+                                router.push("/dashboard/patients/create")
+                            }}>
+                                <UserPlus2Icon />
+                                <span>Crear Paciente</span>
                             </CommandItem>
                             <CommandItem>
                                 <Smile />

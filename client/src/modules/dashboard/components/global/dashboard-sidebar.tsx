@@ -83,7 +83,7 @@ const data = {
                 },
                 {
                     title: "Añadir Paciente",
-                    url: "/patients/create",
+                    url: "/dashboard/patients/create",
                     icon: UserCheck,
                 },
             ],

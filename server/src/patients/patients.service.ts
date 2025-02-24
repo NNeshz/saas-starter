@@ -15,16 +15,17 @@ export class PatientsService {
     try {
       const encryptedData = {
         ...createPatientDto,
-        firstName: this.encryptionService.encrypt(createPatientDto.firstName),
-        firstSurname: this.encryptionService.encrypt(createPatientDto.firstSurname),
-        secondSurname: this.encryptionService.encrypt(createPatientDto.secondSurname),
+        fullName: this.encryptionService.encrypt(createPatientDto.fullName),
+        email: createPatientDto.email ? this.encryptionService.encrypt(createPatientDto.email) : null,
+        dateOfBirth: this.encryptionService.encrypt(createPatientDto.dateOfBirth.toISOString()),
         phoneNumber: this.encryptionService.encrypt(createPatientDto.phoneNumber),
         street: this.encryptionService.encrypt(createPatientDto.street),
+        colony: createPatientDto.colony ? this.encryptionService.encrypt(createPatientDto.colony) : null,
         municipality: this.encryptionService.encrypt(createPatientDto.municipality),
         state: this.encryptionService.encrypt(createPatientDto.state),
-        insuranceNumber: this.encryptionService.encrypt(createPatientDto.insuranceNumber),
-        emergencyContactPhone: this.encryptionService.encrypt(createPatientDto.emergencyContactPhone),
         emergencyContactName: this.encryptionService.encrypt(createPatientDto.emergencyContactName),
+        emergencyContactPhone: this.encryptionService.encrypt(createPatientDto.emergencyContactPhone),
+        insuranceNumber: this.encryptionService.encrypt(createPatientDto.insuranceNumber),
       }
       // Se valida que el paciente existe si se repiten estos datos:
       // - Teléfono
@@ -34,9 +35,7 @@ export class PatientsService {
       const patientExists = await this.prisma.patient.findFirst({
         where: {
           phoneNumber: encryptedData.phoneNumber,
-          firstName: encryptedData.firstName,
-          firstSurname: encryptedData.firstSurname,
-          secondSurname: encryptedData.secondSurname
+          fullName: encryptedData.fullName,
         }
       });
       if (patientExists) {
@@ -52,9 +51,8 @@ export class PatientsService {
       }
 
       const decryptedData = {
-        firstName: this.encryptionService.decrypt(patient.firstName),
-        firstSurname: this.encryptionService.decrypt(patient.firstSurname),
-        secondSurname: this.encryptionService.decrypt(patient.secondSurname),
+        fullName: this.encryptionService.decrypt(patient.fullName),
+        phoneNumber: this.encryptionService.decrypt(patient.phoneNumber),
       }
 
       return ApiResponseBuilder.success(decryptedData, 'Patient created successfully');

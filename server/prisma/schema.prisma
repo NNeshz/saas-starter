@@ -33,6 +33,21 @@ enum Genders {
   OTHER
 }
 
+enum Relationships {
+  PARENT
+  SIBLING
+  FRIEND
+  FAMILY
+  OTHER
+}
+
+enum CivilStatus {
+  SINGLE
+  MARRIED
+  DIVORCED
+  WIDOWER
+}
+
 model User {
   id        String     @id @default(uuid())
   email     String     @unique
@@ -45,22 +60,24 @@ model User {
 }
 
 model Patient {
-  id                    String   @id @default(uuid())
-  firstName             String
-  firstSurname          String
-  secondSurname         String
+  id                    String        @id @default(uuid())
+  fullName              String
+  email                 String?
   dateOfBirth           DateTime
   gender                Genders
+  civilStatus           CivilStatus
   phoneNumber           String
   street                String
+  colony                String?
   municipality          String
   state                 String
   emergencyContactName  String
   emergencyContactPhone String
+  relationship          Relationships
   insuranceNumber       String
-  registrationDate      DateTime @default(now())
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  registrationDate      DateTime      @default(now())
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
 
   // Relations
   medicalHistory MedicalHistory[]
