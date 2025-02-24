@@ -2,8 +2,8 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import * as jose from 'jose';
 
-const SUPABASE_JWT_SECRET = process.env.NEXT_PUBLIC_SUPABASE_JWT_SECRET!;
-const TOKEN_NAME = process.env.SUPABASE_COOKIE_NAME!;
+const JWT_SECRET = process.env.NEXT_PUBLIC_JWT_SECRET as string;
+const TOKEN_NAME = process.env.NEXT_PUBLIC_AUTH_COOKIE_NAME as string;
 
 interface DecodedToken {
   sub: string;
@@ -16,7 +16,7 @@ interface DecodedToken {
 
 async function verifyTokenExpired(token: string) {
   try {
-    const secret = new TextEncoder().encode(SUPABASE_JWT_SECRET);
+    const secret = new TextEncoder().encode(JWT_SECRET);
     const decodedToken = await jose.jwtVerify(token, secret) as {
       payload: DecodedToken;
     };
@@ -50,5 +50,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/", "/login", "/dashboard"],
+  matcher: ["/", "/login", "/dashboard"],
 };

@@ -31,9 +31,6 @@ export const AuthService = {
                 withCredentials: true,
                 headers: getHeaders(),
             });
-
-            console.log(response.data);
-
             const user = response.data;
 
             return {
