@@ -5,6 +5,7 @@ import { CivilStatus, Genders, Relationships } from "@/modules/common/types/pris
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { useState } from "react"
 
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
@@ -30,12 +31,14 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
-
 import { format, subYears } from 'date-fns';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { cn } from "@/lib/utils"
 import { CreatePatientDto } from "../interfaces/create-patient"
+import { PatientsService } from "../services/patients-service"
+import { usePatients } from "../hooks/usePatients"
+import { toast } from "sonner"
 
 const patientSchema = z.object({
     fullName: z.string().min(2).max(50),
@@ -55,6 +58,8 @@ const patientSchema = z.object({
 })
 
 export function CreatePatientForm() {
+    const { refetch } = usePatients()
+    const [isLoading, setIsLoading] = useState(false)
     const patientForm = useForm<z.infer<typeof patientSchema>>({
         resolver: zodResolver(patientSchema),
         defaultValues: {
@@ -75,29 +80,59 @@ export function CreatePatientForm() {
         }
     })
 
-    const onSubmit = (values: z.infer<typeof patientSchema>) => {
+    const onSubmit = async (values: z.infer<typeof patientSchema>) => {
+
+        console.log({ values })
+
+        const fullName = values.fullName.trim().replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+        const email = values.email?.trim()
+        const phoneNumber = values.phoneNumber.trim()
+        const street = values.street.trim().replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+        const colony = values.colony?.trim().replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+        const municipality = values.municipality.trim().replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+        const state = values.state.trim().replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+        const emergencyContactName = values.emergencyContactName.trim().replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+        const emergencyContactPhone = values.emergencyContactPhone.trim().replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+        const insuranceNumber = values.insuranceNumber.trim().replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+
+
         const patient: CreatePatientDto = {
-            fullName: values.fullName,
-            email: values.email,
+            fullName: fullName,
+            email: email,
             dateOfBirth: values.dateOfBirth,
             gender: values.gender,
             civilStatus: values.civilStatus,
-            phoneNumber: values.phoneNumber,
-            street: values.street,
-            colony: values.colony,
-            municipality: values.municipality,
-            state: values.state,
-            emergencyContactName: values.emergencyContactName,
-            emergencyContactPhone: values.emergencyContactPhone,
+            phoneNumber: phoneNumber,
+            street: street,
+            colony: colony,
+            municipality: municipality,
+            state: state,
+            emergencyContactName: emergencyContactName,
+            emergencyContactPhone: emergencyContactPhone,
             relationship: values.relationship,
-            insuranceNumber: values.insuranceNumber,
+            insuranceNumber: insuranceNumber,
         }
 
-        console.log(patient)
+        try {
+            console.log("Intentando crear paciente")
+            setIsLoading(true)
+            const response = await PatientsService.create(patient)
+            console.log({ response })
+            if (response.data) {
+                toast.success("Paciente creado correctamente")
+                patientForm.reset()
+                refetch()
+            }
+        } catch (error) {
+            console.log(error)
+            toast.error("Error al crear el paciente")
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
-        <Form {...patientForm}>
+        <Form {...patientForm} >
             <form onSubmit={patientForm.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                     control={patientForm.control}
@@ -411,7 +446,9 @@ export function CreatePatientForm() {
                     />
                 </div>
 
-                <Button type="submit" className="w-full text-white">Crear paciente</Button>
+                <Button type="submit" className="w-full text-white" disabled={isLoading}>{
+                    isLoading ? "Creando paciente..." : "Crear paciente"
+                }</Button>
             </form>
         </Form>
     )
