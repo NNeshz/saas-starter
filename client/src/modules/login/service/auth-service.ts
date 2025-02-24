@@ -1,18 +1,8 @@
 import { getHeaders } from "@/lib/utils/get-headers";
 import { authInstance } from "./auth-instance";
+import { UserResponse } from "../interfaces/auth-interface";
+import { User } from "../interfaces/auth-interface";
 
-interface User {
-    id: string;
-    email: string;
-    name: string;
-    avatar: string;
-    role: 'SUPERADMIN' | 'ADMIN' | 'USER';
-}
-
-interface UserResponse {
-    success: string;
-    data: User;
-}
 
 export const AuthService = {
     async login() {
@@ -38,7 +28,8 @@ export const AuthService = {
                 email: user.data.email,
                 name: user.data.name,
                 avatar: user.data.avatar,
-                role: user.data.role,
+                adminRole: user.data.adminRole,
+                userRole: user.data.userRole,
             };
         } catch (error) {
             console.error('Error fetching user:', error);

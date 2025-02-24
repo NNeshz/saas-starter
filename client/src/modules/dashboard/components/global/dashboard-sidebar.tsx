@@ -198,8 +198,8 @@ export function DashboardSidebar({ ...props }: React.ComponentProps<typeof Sideb
                                     <Command className="size-4" />
                                 </div>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold">Acme Inc</span>
-                                    <span className="truncate text-xs">Enterprise</span>
+                                    <span className="truncate font-semibold">San Miguel</span>
+                                    <span className="truncate text-xs">Clinica central</span>
                                 </div>
                             </a>
                         </SidebarMenuButton>
@@ -228,23 +228,20 @@ export const SidebarSkeleton = () => {
                         <SidebarMenuButton size="lg" asChild>
                             <a href="#">
                                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                                    <Skeleton className="size-4" />
+                                    <Command className="size-4" />
                                 </div>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <Skeleton className="truncate font-semibold" />
-                                    <Skeleton className="truncate text-xs" />
+                                    <span className="truncate font-semibold">San Miguel</span>
+                                    <span className="truncate text-xs">Clinica central</span>
                                 </div>
                             </a>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
-            <SidebarContent className="flex-1 p-2 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-                {
-                    Array.from({ length: 5 }).map((_, index) => (
-                        <Skeleton key={index} className="h-8 w-full" />
-                    ))
-                }
+            <SidebarContent className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+                <NavMain items={data.navMain} />
+                <NavSecondary items={data.navSecondary} className="mt-auto" />
             </SidebarContent>
             <SidebarFooter>
                 <Skeleton className="h-10 w-full" />

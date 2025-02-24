@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { SupabaseService } from 'src/supabase/supabase.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Roles } from '@prisma/client';
+import { AdminRoles, UserRoles } from '@prisma/client';
 import { Request } from 'express';
 import * as jwt from 'jsonwebtoken';
 
@@ -57,7 +57,7 @@ export class AuthService {
         throw new UnauthorizedException(`El correo ${userEmail} no está autorizado para acceder al sistema`);
       }
 
-      let role = userEmail === process.env.NEFTALI_HERNANDEZ_MAIL ? Roles.SUPERADMIN : Roles.USER;
+      let role = userEmail === process.env.NEFTALI_HERNANDEZ_MAIL ? AdminRoles.SUPERADMIN : AdminRoles.USER;
 
       // Crear o actualizar el usuario en la base de datos
 
@@ -66,13 +66,15 @@ export class AuthService {
         update: {
           name: session.user.user_metadata?.full_name,
           avatar: session.user.user_metadata?.avatar_url,
-          role: role,
+          adminRole: role,
+          userRole: UserRoles.DOCTOR,
         },
         create: {
           email: userEmail,
           name: session.user.user_metadata?.full_name,
           avatar: session.user.user_metadata?.avatar_url,
-          role: role,
+          adminRole: role,
+          userRole: UserRoles.DOCTOR,
         },
       });
       if (!user) {
@@ -120,7 +122,8 @@ export class AuthService {
           email: true,
           name: true,
           avatar: true,
-          role: true,
+          adminRole: true,
+          userRole: true,
         },
       });
 
@@ -175,7 +178,8 @@ export class AuthService {
         email: user.email,
         name: user.name,
         avatar: user.avatar,
-        role: user.role,
+        adminRole: user.adminRole,
+        userRole: user.userRole,
       },
       process.env.JWT_SECRET,
       {

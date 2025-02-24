@@ -6,7 +6,7 @@ import { AuthService } from "../service/auth-service";
 export const useUsers = () => {
     return useQuery({
         queryKey: ['users'],
-        queryFn: AuthService.getUser,
+        queryFn: () => AuthService.getUser(),
         staleTime: 1000 * 60 * 5, // 5 minutos
     });
 };

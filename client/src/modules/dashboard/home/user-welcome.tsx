@@ -1,6 +1,10 @@
 'use client'
 
 import { useUsers } from "@/modules/login/hooks/useUsers"
+import { Badge } from "@/components/ui/badge"
+import { UserRoles } from "@/modules/login/interfaces/auth-interface";
+import { getColorAndLabelForAdminRole, getColorAndLabelForRole } from "@/lib/utils/get-color-and-label";
+import { AdminRoles } from "@/modules/login/interfaces/auth-interface";
 
 export function UserWelcome() {
     const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useUsers();
@@ -10,7 +14,17 @@ export function UserWelcome() {
 
     return (
         <div>
-            <p className="text-2xl font-bold">Bienvenido, {user?.name || ''}</p>
+            <span className="flex items-center gap-2">
+                <p className="text-2xl font-bold">
+                    {user?.name || ''}
+                </p>
+                <Badge variant="outline" className={`${getColorAndLabelForRole(user?.userRole as UserRoles).color} px-2 py-1`}>
+                    {getColorAndLabelForRole(user?.userRole as UserRoles).label}
+                </Badge>
+                <Badge variant="outline" className={`${getColorAndLabelForAdminRole(user?.adminRole as AdminRoles).color} px-2 py-1`}>
+                    {getColorAndLabelForAdminRole(user?.adminRole as AdminRoles).label}
+                </Badge>
+            </span>
             <p className="text-sm text-gray-500">
                 {user?.email || ''}
             </p>

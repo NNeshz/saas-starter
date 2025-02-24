@@ -14,20 +14,96 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum Roles {
+enum AdminRoles {
   SUPERADMIN
   ADMIN
   USER
 }
 
+enum UserRoles {
+  DOCTOR
+  NUTRITIONIST
+  PHYSIOTHERAPIST
+  DENTIST
+}
+
+enum Genders {
+  MALE
+  FEMALE
+  OTHER
+}
+
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
+  id        String     @id @default(uuid())
+  email     String     @unique
   name      String?
   avatar    String?
-  role      Roles    @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  adminRole AdminRoles @default(USER)
+  userRole  UserRoles  @default(DOCTOR)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Patient {
+  id                    String   @id @default(uuid())
+  firstName             String
+  firstSurname          String
+  secondSurname         String
+  dateOfBirth           DateTime
+  gender                Genders
+  phoneNumber           String
+  street                String
+  municipality          String
+  state                 String
+  emergencyContactName  String
+  emergencyContactPhone String
+  insuranceNumber       String
+  registrationDate      DateTime @default(now())
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  medicalHistory MedicalHistory[]
+  medications    Medication[]
+  appointments   Appointment[]
+}
+
+model MedicalHistory {
+  id              String  @id @default(uuid())
+  chronicDiseases String?
+  allergies       String?
+  surgeries       String?
+  smoker          Boolean
+  alcohol         Boolean
+  drugs           Boolean
+  patientId       String
+  patient         Patient @relation(fields: [patientId], references: [id])
+
+  @@index([patientId])
+}
+
+model Medication {
+  id        String    @id @default(uuid())
+  name      String
+  dosage    String
+  frequency String
+  startDate DateTime
+  endDate   DateTime?
+  patientId String
+  patient   Patient   @relation(fields: [patientId], references: [id])
+
+  @@index([patientId])
+}
+
+model Appointment {
+  id          String   @id @default(uuid())
+  date        DateTime
+  description String?
+  notes       String?
+  patientId   String
+  patient     Patient  @relation(fields: [patientId], references: [id])
+
+  @@index([patientId])
 }
 
 model AuthorizedEmails {
