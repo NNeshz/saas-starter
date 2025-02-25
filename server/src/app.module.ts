@@ -8,6 +8,8 @@ import { SupabaseModule } from './supabase/supabase.module';
 import { AuthModule } from './auth/auth.module';
 import { PatientsModule } from './patients/patients.module';
 import { EncryptionModule } from './encryption/encryption.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggingInterceptor } from './interceptor/interceptor.interceptor';
 
 @Module({
   imports: [
@@ -23,6 +25,11 @@ import { EncryptionModule } from './encryption/encryption.module';
     PatientsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    }
+  ],
 })
 export class AppModule { }

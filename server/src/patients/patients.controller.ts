@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { PatientsService } from './patients.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { HasRoles } from 'src/auth/decorator/roles.decorator';
 import { AdminRoles } from '@prisma/client';
+import { FilterPatientDto } from './dto/filter-patient.dto';
 
 @Controller('patients')
 export class PatientsController {
@@ -17,8 +18,8 @@ export class PatientsController {
 
   @Get()
   @HasRoles(AdminRoles.SUPERADMIN, AdminRoles.ADMIN, AdminRoles.USER)
-  findAll() {
-    return this.patientsService.findAll();
+  findAll(@Query() filterPatientDto: FilterPatientDto) {
+    return this.patientsService.findAll(filterPatientDto);
   }
 
   @Get(':id')

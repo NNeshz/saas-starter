@@ -78,7 +78,7 @@ const data = {
             items: [
                 {
                     title: "Lista de Pacientes",
-                    url: "#",
+                    url: "/dashboard/patients/list",
                     icon: MedalIcon,
                 },
                 {

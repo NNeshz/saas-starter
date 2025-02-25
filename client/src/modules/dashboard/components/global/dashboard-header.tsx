@@ -77,9 +77,12 @@ export function DashboardHeader() {
                                 <UserPlus2Icon />
                                 <span>Crear Paciente</span>
                             </CommandItem>
-                            <CommandItem>
+                            <CommandItem className="flex items-center gap-2" onSelect={() => {
+                                setOpen(false)
+                                router.push("/dashboard/patients/list")
+                            }}>
                                 <Smile />
-                                <span>Search Emoji</span>
+                                <span>Lista de Pacientes</span>
                             </CommandItem>
                             <CommandItem>
                                 <Calculator />

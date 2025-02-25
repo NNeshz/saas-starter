@@ -81,9 +81,6 @@ export function CreatePatientForm() {
     })
 
     const onSubmit = async (values: z.infer<typeof patientSchema>) => {
-
-        console.log({ values })
-
         const fullName = values.fullName.trim().replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
         const email = values.email?.trim()
         const phoneNumber = values.phoneNumber.trim()
@@ -114,10 +111,8 @@ export function CreatePatientForm() {
         }
 
         try {
-            console.log("Intentando crear paciente")
             setIsLoading(true)
             const response = await PatientsService.create(patient)
-            console.log({ response })
             if (response.data) {
                 toast.success("Paciente creado correctamente")
                 patientForm.reset()
